@@ -68,7 +68,11 @@ export class PuppeteerExtraPluginRecaptcha extends PuppeteerExtraPlugin {
       await page.waitForFunction(
         `
         (function() {
-          return window.___grecaptcha_cfg && window.___grecaptcha_cfg.count
+          let result = window.___grecaptcha_cfg && window.___grecaptcha_cfg.count
+          if(typeof result === "number"){
+              return true;
+          }
+          return result;
         })()
       `,
         { polling: 200, timeout: 10 * 1000 }
